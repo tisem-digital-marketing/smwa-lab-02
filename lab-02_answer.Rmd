@@ -33,6 +33,9 @@ Add your solutions to the `lab-02_answer.Rmd` file as you work through the exerc
 Obtain a copy of both the question and answer files using Git.
 To clone a copy of this repository to your own PC, use the following command:
 
+```{bash, eval = FALSE}
+git clone https://github.com/tisem-digital-marketing/smwa-lab-02.git
+```
 
 Once you have your copy, open the answer document in RStudio as an RStudio project and work through the questions.
 
@@ -56,7 +59,10 @@ url <- "https://github.com/scunning1975/mixtape/raw/master/sasp_panel.dta"
 # where to save data
 out_file <- "data/sasp_panel.dta"
 # download it!
-download.file(url, destfile = out_file, mode = "wb")
+download.file(url, 
+              destfile = out_file, 
+              mode = "wb"
+              )
 ```
 
 The data include the log hourly price, the log of the session length (in hours), characteristics of the client (such as whether he was a regular), whether a condom was used, and some characteristics of the provider (such as they race, marital status and education level).
