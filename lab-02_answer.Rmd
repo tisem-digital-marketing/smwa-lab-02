@@ -1,0 +1,245 @@
+---
+title: "My answers"
+author: "My name"
+date: '`r format(Sys.time(), "%d %B, %Y")`'
+output: html_document
+---
+
+## Motivation
+
+Linear regression is a workhorse model of a Marketing Analyst's toolkit.
+This is because it gives them the ability to describe data patterns, predict the value of marketing metrics in data and potentially make causal claims about the relationships between multiple variables. 
+
+In this tutorial you will apply linear regression to get first hand experience with these tools.
+We will focus both on how to linear regression in `R` and how to correctly interpret the results.
+You will use linear regression to evaluate the association between product characteristics and product price in an internet mediated market.
+
+## Learning Goals
+
+By the end of this tutorial you will be able to:
+
+1. Estimate Single and Multiple Regression models with R.
+2. Interpret regression coefficients.
+3. Discuss likely biases in regression coefficients due to omitted variable bias.
+4. Discuss why regression standard errors may need to be adjusted for heteroskedasticity or clustering.
+5. Estimate Fixed Effect regressions with and without clustered standard errors.
+6. Present regression coefficients in a table and in a plot.
+
+## Instructions to Students
+
+These tutorials are **not graded**, but we encourage you to invest time and effort into working through them from start to finish.
+Add your solutions to the `lab-02_answer.Rmd` file as you work through the exercises so that you have a record of the work you have done.
+
+Obtain a copy of both the question and answer files using Git.
+To clone a copy of this repository to your own PC, use the following command:
+
+
+Once you have your copy, open the answer document in RStudio as an RStudio project and work through the questions.
+
+The goal of the tutorials is to explore how to "do" the technical side of social media analytics.
+Use this as an opportunity to push your limits and develop new skills.
+When you are uncertain or do not know what to do next - ask questions of your peers and the instructors on the class Slack channel `#lab02-discussion`.
+
+\newpage
+
+## Multiple Regression Analysis
+
+The advent of the internet, and the rise in user generated content has had a large effect on sex markets.
+In 2008 and 2009, [Scott Cunningham](https://www.scunning.com/) and [Todd Kendall](https://www.compasslexecon.com/professionals/todd-d-kendall/) surveyed approximately 700 US internet mediated sex workers.
+The questions they asked included information about their illicit and legal labor market experiences and their demographics.
+Part of the survey asked respondents to share information about each of the previous four sessions with clients.
+
+To gain access to the data, run the following code to download it and save it in the file `data/sasp_panel.dta`:
+
+```{r, cache= TRUE}
+url <- "https://github.com/scunning1975/mixtape/raw/master/sasp_panel.dta"
+# where to save data
+out_file <- "data/sasp_panel.dta"
+# download it!
+download.file(url, destfile = out_file, mode = "wb")
+```
+
+The data include the log hourly price, the log of the session length (in hours), characteristics of the client (such as whether he was a regular), whether a condom was used, and some characteristics of the provider (such as they race, marital status and education level).
+The goal of this exercise is to estimate the price premium of unsafe sex and think through any bias in the coefficients within the regression models we estimate.
+
+You might need to use the following `R` libraries throughout this exercise:^[
+  If you haven't installed one or more of these packages, do so by entering `install.packages("PKG_NAME")` into the R console and pressing ENTER.
+]
+
+```{r, eval = TRUE, message=FALSE, warning=FALSE}
+library(haven) # to read stata datasets
+library(dplyr)
+library(tidyr)
+library(fixest)
+library(broom)
+library(ggplot2)
+library(modelsummary)
+```
+
+1. Load the data. The data is stored as a Stata dataset, so it can be loaded with the `read_dta()` function from `haven`.
+
+```{r}
+# Write your answer here
+```
+
+
+2. Some rows of the data have missing values. Let's drop these.^[
+  Generally, we need to be quite careful when we make decisions about dropping rows of data, and think through what the consequences of it might be.
+  We've not done this here because our goal was to illustrate how to estimate and interpret regression estimates, but we would encourage you to be careful when you do this in your own work.
+  At a minimum, you should mention why you've dropped rows, and whether there is likely to be selection bias in your subsequent results.
+]
+Write a short command to drop any rows which have missing values from the data.
+
+```{r}
+# Write your answer here
+```
+
+
+As mentioned above, the focus for the rest of this exercise is the price premium for unprotected sex. 
+In the `sasp` data, there is a variable `lnw` which is the log of the hourly wage and a variable `unsafe` which takes the value 1 if there was unsafe sex during the client's appointment and 0 otherwise.
+
+3. Produce a diagram that plots a histogram of log hourly wage, `lnw`, for sessions featuring either unsafe and safe sex. 
+Your plot should therefore have two histograms, potentially overlaying each other.
+Does there appear to be a difference in price between safe and unsafe sex?
+
+```{r}
+# Write your answer here
+```
+
+4. Let's formalize this idea with a regression.
+Run a single variable regression of log hourly wage, `lnw` on the variable `unsafe`.
+Report the results.
+
+```{r}
+# Write your answer here
+```
+
+
+5. Interpret the coefficient on `unsafe`.
+Is it statistically significant?
+
+Write your answer here
+
+6. A single variable regression most likely suffers from omitted variable bias. 
+Explain what omitted variable bias is, and why it might impact your regression estimates.
+
+Write your answer here
+
+
+7. Add the log of the length of the session, `llength`, as a second variable to your regression.
+Report the results.
+Did the coefficient on `unsafe` change?
+
+```{r}
+# Write your answer here
+```
+
+
+7. Explain why ignoring `llength` in your regression led to the coefficient on `unsafe` to be different in sign in the single variable regression than in the two variable regression.
+
+Write your answer here
+
+8.  Add a third variable to the regression, whether the client is a regular or not (`reg` in the data).
+Report your results and comment on any change in the regression estimate of `unsafe`.
+
+```{r}
+# Write your answer here
+```
+
+
+9. When discussing your interim results with a friend who is a bit of a statistical whiz they make the following remark: "I think you're not getting the expected results due to unobserved heterogeneity. Try adding fixed effects for each provider."
+What is unobserved heterogeneity? Why might it matter?
+
+Write your answer here
+
+10. The data has a unique identifier for each provider in the `id` column.
+Use the `feols()` command from the `fixest` package to re-estimate your regression in (8) adding the provider ID fixed effects.
+Report your results with 'normal' standard errors (i.e. no clustering).
+
+```{r}
+# Write your answer here
+```
+
+
+11. Interpret your new results from (10).
+Is the coefficient on `unsafe` now statistically significant?
+Is the coefficient large from a 'marketing' viewpoint?
+
+Write your answer here
+
+Your next concern should be the standard errors - and whether we have 'correctly' adjusted for heteroskedasticity and/or clustering.
+
+13. Produce a plot that visualizes the relationship between the predicted values of `lnw` from your regression on the horizontal axis and the residuals from the regression on the vertical axis.^[
+The function `predict(MODEL_NAME)` will create a column of predicted values from a regression stored as `MODEL_NAME`.
+The function `residuals(MODEL_NAME)` will create a column of residual values from a regression stored as `MODEL_NAME`.
+]
+Does there appear to be evidence of heteroskedasticity?
+
+
+```{r}
+# Write your answer here
+```
+
+
+14. Report regression results that use heteroskedasticity robust standard errors. 
+You might be able to do this **without** re-estimating the regression model in (10). 
+Does the standard error on `unsafe` change by much?
+Is this consistent with what you found graphically above?
+
+```{r}
+# Write your answer here
+```
+
+
+15. Report results that allow the standard errors to be clustered by `id` (i.e. clustered at the provider level).
+Again, you might be able to do this **without** re-estimating the regression model in (10). 
+Why might you want to cluster the standard errors this way?
+
+```{r}
+# Write your answer here
+```
+
+
+Marketers are generally interested in whether effects they find are heterogeneous, i.e. whether the reported coefficients vary across different observable characteristics.
+
+16. Estimate a regression model that allows the price effect of unsafe sex to differ for customers who are regulars to those who aren't.
+Do this by modifying your regression command from (10).
+Report your results and discuss your findings.
+
+```{r}
+# Write your answer here
+```
+
+
+17. Interpret the results you found in (16).
+
+Write your answer here
+
+18. Are the effects you documented *causal*, *descriptive* or *predictive*?  Explain your answer.
+
+Write your answer here
+
+Now that you have run a series of regressions, you want to present the results in a way that you could use in a report or a presentation.
+
+19. Take your regression estimates and produce a regression table to summarize four of them in one place. 
+You can choose any of the estimates you like to produce the table, but we encourage you to think about how each column adds something to a story you could tell to explain your findings.
+The final result should look similar to a regression table you see in academic publications.
+
+```{r}
+# Write your answer here
+```
+
+20. Take your regression estimates and produce a coefficient plot to summarize four of them in one place. 
+You can choose any of the estimates you like to produce the plot, but we encourage you to think about the plot you produce can be used as part of a story you could tell to explain your findings.
+
+```{r}
+# Write your answer here
+```
+
+## License
+
+This work is licensed under a [Creative Commons Attribution-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-sa/4.0/).
+
+## Suggested Citation
+
+Deer, Lachlan and de With, Hendrik. 2021. Social Media and Web Analytics: Lab 2 - Multiple Regression in the Wild. Tilburg University. url = "https://github.com/tisem-digital-marketing/smwa-lab-02"
