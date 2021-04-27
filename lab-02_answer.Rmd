@@ -65,7 +65,7 @@ download.file(url,
               )
 ```
 
-The data include the log hourly price, the log of the session length (in hours), characteristics of the client (such as whether he was a regular), whether a condom was used, and some characteristics of the provider (such as they race, marital status and education level).
+The data include the log hourly price, the log of the session length (in hours), characteristics of the client (such as whether he was a regular), whether a condom was used, and some characteristics of the provider (such as their race, marital status and education level).
 The goal of this exercise is to estimate the price premium of unsafe sex and think through any bias in the coefficients within the regression models we estimate.
 
 You might need to use the following `R` libraries throughout this exercise:^[
@@ -141,11 +141,11 @@ Did the coefficient on `unsafe` change?
 ```
 
 
-7. Explain why ignoring `llength` in your regression led to the coefficient on `unsafe` to be different in sign in the single variable regression than in the two variable regression.
+8. Explain why ignoring `llength` in your regression led to the coefficient on `unsafe` to be different in sign in the single variable regression than in the two variable regression.
 
 Write your answer here
 
-8.  Add a third variable to the regression, whether the client is a regular or not (`reg` in the data).
+9.  Add a third variable to the regression, whether the client is a regular or not (`reg` in the data).
 Report your results and comment on any change in the regression estimate of `unsafe`.
 
 ```{r}
@@ -153,13 +153,13 @@ Report your results and comment on any change in the regression estimate of `uns
 ```
 
 
-9. When discussing your interim results with a friend who is a bit of a statistical whiz they make the following remark: "I think you're not getting the expected results due to unobserved heterogeneity. Try adding fixed effects for each provider."
+10. When discussing your interim results with a friend who is a bit of a statistical whiz they make the following remark: "I think you're not getting the expected results due to unobserved heterogeneity. Try adding fixed effects for each provider."
 What is unobserved heterogeneity? Why might it matter?
 
 Write your answer here
 
-10. The data has a unique identifier for each provider in the `id` column.
-Use the `feols()` command from the `fixest` package to re-estimate your regression in (8) adding the provider ID fixed effects.
+11. The data has a unique identifier for each provider in the `id` column.
+Use the `feols()` command from the `fixest` package to re-estimate your regression in (9) adding the provider ID fixed effects.
 Report your results with 'normal' standard errors (i.e. no clustering).
 
 ```{r}
@@ -167,7 +167,7 @@ Report your results with 'normal' standard errors (i.e. no clustering).
 ```
 
 
-11. Interpret your new results from (10).
+12. Interpret your new results from (11).
 Is the coefficient on `unsafe` now statistically significant?
 Is the coefficient large from a 'marketing' viewpoint?
 
@@ -188,7 +188,7 @@ Does there appear to be evidence of heteroskedasticity?
 
 
 14. Report regression results that use heteroskedasticity robust standard errors. 
-You might be able to do this **without** re-estimating the regression model in (10). 
+You might be able to do this **without** re-estimating the regression model in (11). 
 Does the standard error on `unsafe` change by much?
 Is this consistent with what you found graphically above?
 
@@ -198,7 +198,7 @@ Is this consistent with what you found graphically above?
 
 
 15. Report results that allow the standard errors to be clustered by `id` (i.e. clustered at the provider level).
-Again, you might be able to do this **without** re-estimating the regression model in (10). 
+Again, you might be able to do this **without** re-estimating the regression model in (11). 
 Why might you want to cluster the standard errors this way?
 
 ```{r}
@@ -209,7 +209,7 @@ Why might you want to cluster the standard errors this way?
 Marketers are generally interested in whether effects they find are heterogeneous, i.e. whether the reported coefficients vary across different observable characteristics.
 
 16. Estimate a regression model that allows the price effect of unsafe sex to differ for customers who are regulars to those who aren't.
-Do this by modifying your regression command from (10).
+Do this by modifying your regression command from (11).
 Report your results and discuss your findings.
 
 ```{r}
