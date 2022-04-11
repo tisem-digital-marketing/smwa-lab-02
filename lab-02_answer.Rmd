@@ -248,4 +248,4 @@ This work is licensed under a [Creative Commons Attribution-ShareAlike 4.0 Inter
 
 ## Suggested Citation
 
-Deer, Lachlan and de With, Hendrik. 2021. Social Media and Web Analytics: Lab 2 - Multiple Regression in the Wild. Tilburg University. url = "https://github.com/tisem-digital-marketing/smwa-lab-02"
+Deer, Lachlan. 2022. Social Media and Web Analytics: Lab 2 - Multiple Regression in the Wild. Tilburg University. url = "https://github.com/tisem-digital-marketing/smwa-lab-02"
