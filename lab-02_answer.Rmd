@@ -41,7 +41,7 @@ Once you have your copy, open the answer document in RStudio as an RStudio proje
 
 The goal of the tutorials is to explore how to "do" the technical side of social media analytics.
 Use this as an opportunity to push your limits and develop new skills.
-When you are uncertain or do not know what to do next - ask questions of your peers and the instructors on the class Slack channel `#lab02-discussion`.
+When you are uncertain or do not know what to do next - ask questions of your peers and the instructors on the class Slack workspace.
 
 \newpage
 
@@ -248,4 +248,4 @@ This work is licensed under a [Creative Commons Attribution-ShareAlike 4.0 Inter
 
 ## Suggested Citation
 
-Deer, Lachlan. 2022. Social Media and Web Analytics: Lab 2 - Multiple Regression in the Wild. Tilburg University. url = "https://github.com/tisem-digital-marketing/smwa-lab-02"
+Deer, Lachlan. 2023. Social Media and Web Analytics: Lab 2 - Multiple Regression in the Wild. Tilburg University. url = "https://github.com/tisem-digital-marketing/smwa-lab-02"
